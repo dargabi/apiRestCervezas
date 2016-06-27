@@ -1,49 +1,23 @@
 var express = require('express') //llamamos a Express
-var app = express()
-
-// Para establecer distintas rutas necesitamos
-// instanciar el express router
-var router = express.Router()
+var app = express()       
+var bodyParser = require('body-parser')        
 
 var port = process.env.PORT || 8080  // establecemos nuestro puerto
 
-/*
-router.get('/', function(req, res) {
-  res.json({ mensaje: '¡Hola birra!' })   
-})
-*/
+/*toda la configuración de bbdd la hacemos en un fichero a parte*/
+require('./db')
 
-router.get('/cervezas', function(req, res) {
-  res.json({ mensaje: '¡A beber cerveza!' + req.params.nombre })  
-})
-
-// Matchea con cualquier nombre
-router.get('/:nombre', function(req, res) {
-  res.json({ mensaje: '¡A beber cerveza!' })  
-})
-
-
-var bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use(bodyParser.json())
+app.use(bodyParser.json())            
 
-router.post('/',function(req,res) { 
-  res.json({mensaje: 'Hola teresa' + req.body.nombre})  
-})
-
-/*
-
-router.post('/', function(req, res) {
-  res.json({ mensaje: 'Método post' })   
-})
-
-router.delete('/', function(req, res) {
-  res.json({ mensaje: 'Método delete' })  
-})
-*/
-
+// nuestra ruta irá en http://localhost:8080/api
+// es bueno que haya un prefijo, sobre todo por el tema de versiones de la API
+var router = require('./routes')
 app.use('/api', router)
 
-// iniciamos nuestro servidor
+//arrancamos el servidor
 app.listen(port)
 console.log('API escuchando en el puerto ' + port)
+
+/*lo añado al final de app/server.js:*/
+module.exports = app
