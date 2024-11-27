@@ -10,7 +10,7 @@ require('./db')
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())            
 
-// nuestra ruta irá en http://localhost:8080/api
+// nuestra ruta irá en local en la url http://localhost:8080/api
 // es bueno que haya un prefijo, sobre todo por el tema de versiones de la API
 var router = require('./routes')
 app.use('/api', router)
